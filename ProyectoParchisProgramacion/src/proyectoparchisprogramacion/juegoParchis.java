@@ -27,6 +27,7 @@ public class juegoParchis extends javax.swing.JFrame {
     int posicionInicial;
     int numPasos;
     int recorrido = 12;
+    int resultado = 0;
     
     ArrayList<Fichas> fichasVerdes =  new ArrayList<>();
     ArrayList<Fichas> fichasAzules =  new ArrayList<>();
@@ -266,7 +267,7 @@ public class juegoParchis extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int dado1 = numeroAleatorio();
         int dado2 = numeroAleatorio();
-        int resultado = dado1 + dado2;
+        resultado = dado1 + dado2;
         jLabel14.setText("TOTAL:  " + resultado);
 
 	    String rutaImagenDado1 = "/Imagenes/dado"+dado1+".png";
@@ -276,44 +277,99 @@ public class juegoParchis extends javax.swing.JFrame {
         jLabel12.setIcon(imagenDado1);
         jLabel13.setIcon(imagenDado2);
 
-         if (dado1 == 6 || dado2 == 6 && fichasVerdesIniciadas < 5){
+         if (dado1 == 6 || dado2 == 6 && fichasVerdesIniciadas == 0){
              jButton3.setVisible(true);
              jButton1.setVisible(false);
-         }else {
-
          }
+         if(fichasVerdesIniciadas > 0){
+            jButton1.setVisible(false);
+            jButton2.setVisible(true);
+            //jButton1.setVisible(false);
+            if((dado1 == 6 || dado2 == 6) && fichasVerdesIniciadas <= 4){
+                jButton3.setVisible(true);
+            }else{
+                jButton3.setVisible(false);
+            }
+         }
+         actualizarFichas();
         }
 //GEN-LAST:event_jButton1ActionPerformed
-
-    private void MoverVerde(){
-
+    
+    private void actualizarFichas(){
+        Timer timer;
+        timer = new Timer(100, e -> {
+            for(Fichas ficha: fichasVerdes){
+                if(ficha.posicionCuadro > 0){
+                    PosicionesFicha1 posicion = new PosicionesFicha1();
+                    Cordenada cordenada;
+                    cordenada = posicion.ObtenerCordenada(ficha.posicionCuadro);
+                    ficha.ficha.setLocation(cordenada.posicionx, cordenada.posiciony);
+                }
+            }
+            
+            if (0 == 0) {
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        timer.start();
+    }
+    
+    private void MoverVerde(Fichas ficha){
+        Timer timer;
+        timer = new Timer(100, e -> {
+            ficha.posicionCuadro += resultado;
+            PosicionesFicha1 posicion = new PosicionesFicha1();
+            Cordenada cordenada; 
+            cordenada = posicion.ObtenerCordenada(ficha.posicionCuadro);
+            ficha.ficha.setLocation(cordenada.posicionx, cordenada.posiciony);
+            
+            if (0 == 0) {
+                ((Timer) e.getSource()).stop();
+            }
+            
+            if(ficha.posicionCuadro >= 70 && fichasTerminadas <= 4){
+                fichasTerminadas++;
+            }
+        });
+        timer.start();
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        jButton1.setVisible(true);
+        
     }
 
     private void SacarFichaVerde(){
-        if(0 == 0){
-//            fichasVerdesIniciadas++;
-//            fichasVerdes.get(0).ficha.setLocation(320, 150);
-            fichasVerdes.get(0).posicionCuadro = 1;
-//            jButton3.setEnabled(false);
+        if(fichasVerdesIniciadas == 0){
+            jButton3.setVisible(false);
             jButton1.setVisible(true);
             Timer timer;
             timer = new Timer(100, e -> {
-                jLabel25.setLocation(jLabel25.getX(), jLabel25.getY() + 15);
+                fichasVerdes.get(fichasVerdesIniciadas).ficha.setLocation(320, 150);
+                fichasVerdes.get(fichasVerdesIniciadas).posicionCuadro = 1;
+                fichasVerdesIniciadas++;
                 if (jLabel25.getY() >= 0) {
                     ((Timer) e.getSource()).stop();
                 }
             });
             timer.start();
-            System.out.println("Ficha verde iniciada Y=" + jLabel25.getY() + " X=" + jLabel25.getX());
-        }
+        }else if(fichasVerdesIniciadas <= 4){
+            fichasVerdes.get(fichasVerdesIniciadas).ficha.setLocation(320, 150);
+            fichasVerdes.get(fichasVerdesIniciadas).posicionCuadro = 1;
+            fichasVerdesIniciadas++;
+    }
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                
+        MoverVerde(fichasVerdes.get(fichasTerminadas));
+        actualizarFichas();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        SwingUtilities.invokeLater(() -> SacarFichaVerde());
+        SacarFichaVerde();
+        jButton3.setVisible(false);
+        jButton2.setVisible(false);
+        jButton1.setVisible(true);
+        actualizarFichas();
     }//GEN-LAST:event_jButton3ActionPerformed
     
 
