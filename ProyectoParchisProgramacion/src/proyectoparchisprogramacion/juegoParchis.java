@@ -7,15 +7,19 @@ package proyectoparchisprogramacion;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.text.Position;
+import javax.swing.Timer;
 
 public class juegoParchis extends javax.swing.JFrame {
     Random numRandom = new Random();
     int numAleatorio;
     boolean turno = false;
     int fichasIniciadas1 = 0;
-    int fichasIniciadas2 = 0;
+    int fichasVerdesIniciadas = 0;
     int fichasEnCamino = 0;
     int fichasTerminadas = 0;
     int numJugador = 0;
@@ -24,23 +28,29 @@ public class juegoParchis extends javax.swing.JFrame {
     int numPasos;
     int recorrido = 12;
     
+    ArrayList<Fichas> fichasVerdes =  new ArrayList<>();
+    ArrayList<Fichas> fichasAzules =  new ArrayList<>();
 
     public juegoParchis() {
         initComponents();
+        jButton3.setVisible(false);
+        jButton2.setVisible(false);
         if(turno == false){
             turno = true;
             jLabel16.setText("Jugador 1");
         }
-    }
-    
-    public void posicionInicio1(JLabel label){
-        label.setLocation( 320,150) ;
-        System.out.println("Posicion: ");
+        fichasVerdes.add(new Fichas( 200, 110, 0, 1, jLabel25));
+        fichasVerdes.add(new Fichas( 100, 110, 0, 2, jLabel18));
+        fichasVerdes.add(new Fichas( 150, 170, 0, 3, jLabel19));
+        fichasVerdes.add(new Fichas( 150, 50, 0, 4, jLabel20));
+        fichasAzules.add(new Fichas(640, 630, 0, 1, jLabel21));
+        fichasAzules.add(new Fichas(540, 630, 0, 2, jLabel22));
+        fichasAzules.add(new Fichas(590, 570, 0, 3, jLabel23));
+        fichasAzules.add(new Fichas(590, 690, 0, 4, jLabel24));
     }
     
     public int numeroAleatorio(){
         numAleatorio = numRandom.nextInt(6)+1;
-        System.out.println(numAleatorio);
         return numAleatorio;
     }
     
@@ -51,7 +61,7 @@ public class juegoParchis extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -84,8 +94,8 @@ public class juegoParchis extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ficha verde parchis (2).png"))); // NOI18N
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 40, 40));
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ficha verde parchis (2).png"))); // NOI18N
+        jPanel1.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 40, -1));
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ficha verde parchis (2).png"))); // NOI18N
         jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 40, -1));
@@ -145,11 +155,11 @@ public class juegoParchis extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(0, 204, 204));
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 255));
+        jButton1.setBackground(new java.awt.Color(0, 204, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Tirar Dados");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -166,22 +176,22 @@ public class juegoParchis extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
 
-        jButton2.setBackground(new java.awt.Color(0, 204, 255));
+        jButton2.setBackground(new java.awt.Color(0, 51, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Mover");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(0, 204, 255));
+        jButton3.setBackground(new java.awt.Color(255, 153, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Sacar Ficha");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -202,22 +212,18 @@ public class juegoParchis extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 14, Short.MAX_VALUE))
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,12 +238,12 @@ public class juegoParchis extends javax.swing.JFrame {
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
 
@@ -258,70 +264,56 @@ public class juegoParchis extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                                        
-        
         int dado1 = numeroAleatorio();
         int dado2 = numeroAleatorio();
         int resultado = dado1 + dado2;
         jLabel14.setText("TOTAL:  " + resultado);
-        
-        if(turno == false){
-            turno = true;
-            jLabel16.setText("Jugador 1");
-        }
-        else{
-            turno = false;
-            jLabel16.setText("Jugador 2");
-        }
 
-	String rutaImagenDado1 = "/Imagenes/dado"+dado1+".png";
+	    String rutaImagenDado1 = "/Imagenes/dado"+dado1+".png";
         String rutaImagenDado2 = "/Imagenes/dado"+dado2+".png";
         ImageIcon imagenDado1 = new ImageIcon(getClass().getResource(rutaImagenDado1));
         ImageIcon imagenDado2 = new ImageIcon(getClass().getResource(rutaImagenDado2));
         jLabel12.setIcon(imagenDado1);
         jLabel13.setIcon(imagenDado2);
 
-         if(fichasIniciadas1 == 0 && ((dado1 > 4) || (dado2 > 4) )){
-            fichasIniciadas1 += 1;
+         if (dado1 == 6 || dado2 == 6 && fichasVerdesIniciadas < 5){
+             jButton3.setVisible(true);
+             jButton1.setVisible(false);
+         }else {
+
+         }
         }
-         
-         System.out.println("Fichas Iniciadas: "+ fichasIniciadas1);
-    }//GEN-LAST:event_jButton1ActionPerformed
+//GEN-LAST:event_jButton1ActionPerformed
+
+    private void MoverVerde(){
+
+    }
+
+    private void SacarFichaVerde(){
+        if(0 == 0){
+//            fichasVerdesIniciadas++;
+//            fichasVerdes.get(0).ficha.setLocation(320, 150);
+            fichasVerdes.get(0).posicionCuadro = 1;
+//            jButton3.setEnabled(false);
+            jButton1.setVisible(true);
+            Timer timer;
+            timer = new Timer(100, e -> {
+                jLabel25.setLocation(jLabel25.getX(), jLabel25.getY() + 15);
+                if (jLabel25.getY() >= 0) {
+                    ((Timer) e.getSource()).stop();
+                }
+            });
+            timer.start();
+            System.out.println("Ficha verde iniciada Y=" + jLabel25.getY() + " X=" + jLabel25.getX());
+        }
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        /*if(fichasIniciadas1 > 0 && numPasos + resultado > 15){
-            numPasos = recorrido + resultado;
-            jLabel17.setLocation(300 + 40*numPasos, 280);
-        }
-        else if(fichasIniciadas1 > 0 && numPasos + resultado <= 15){
-            numPasos = recorrido + resultado;
-            jLabel17.setLocation(320, 40*numPasos);
-        }*/
                 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(fichasIniciadas1 > 0 && fichasIniciadas1 <= 4){
-            switch (fichasIniciadas1) {
-                case 1:
-                    posicionInicio1(jLabel17);
-                    break;
-                case 2: 
-                    posicionInicio1(jLabel18);
-                    break;
-               case 3: 
-                   posicionInicio1(jLabel19);
-                    break;
-                case 4: 
-                    posicionInicio1(jLabel20);
-                    break;
-                default:
-                    System.out.println("Dados menor que 5");
-            }
-        } 
-        
-        posicionInicio1(jLabel18);
-
+        SwingUtilities.invokeLater(() -> SacarFichaVerde());
     }//GEN-LAST:event_jButton3ActionPerformed
     
 
@@ -337,7 +329,6 @@ public class juegoParchis extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -346,6 +337,7 @@ public class juegoParchis extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
